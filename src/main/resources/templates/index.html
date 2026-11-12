@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transporte Flores - Llevando tu confianza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-oscuro: #0b2545;
+            --azul-medio: #13315c;
+            --naranja: #f97b22;
+            --gris-fondo: #f8f9fa;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gris-fondo);
+            color: #333;
+        }
+
+        /* --- MENÚ SUPERIOR (Estilo Cargotrans) --- */
+        .navbar {
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar img {
+            height: 55px;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        .navbar ul li {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--azul-oscuro);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .navbar ul li:hover { color: var(--naranja); }
+
+        .btn-nav {
+            background-color: var(--azul-oscuro);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-nav:hover { background-color: var(--naranja); }
+
+        /* --- SECCIÓN HERO (Imagen principal) --- */
+        .hero {
+            position: relative;
+            background-image: url('/fondo.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(11,37,69,0.4), rgba(11,37,69,0.8));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .hero h1 span { color: var(--naranja); }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .btn-principal {
+            background-color: var(--naranja);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-principal:hover { background-color: #e56b1a; transform: translateY(-2px); }
+
+        /* --- TARJETAS DE ESTADÍSTICAS --- */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: -60px;
+            position: relative;
+            z-index: 2;
+            padding: 0 5%;
+        }
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+            flex: 1;
+            max-width: 250px;
+            border-bottom: 4px solid var(--naranja);
+        }
+        .stat-card h3 { font-size: 32px; margin: 0 0 5px 0; color: var(--azul-oscuro); }
+        .stat-card p { margin: 0; font-size: 14px; color: #666; font-weight: 600; }
+
+        /* --- SECCIÓN NOSOTROS (Texto del documento) --- */
+        .nosotros {
+            padding: 80px 10%;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background-color: white;
+        }
+        .nosotros-texto { flex: 1; }
+        .nosotros-texto h2 {
+            font-size: 36px;
+            color: var(--azul-oscuro);
+            margin-bottom: 20px;
+        }
+        .nosotros-texto h2 span { color: var(--naranja); }
+        .nosotros-texto p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .nosotros-img { flex: 1; }
+        .nosotros-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* --- SECCIÓN SERVICIOS (Tarjetas azules) --- */
+        .servicios {
+            padding: 80px 5%;
+            background-color: var(--azul-oscuro);
+            text-align: center;
+            color: white;
+        }
+        .servicios h2 { font-size: 38px; margin-bottom: 50px; }
+        .servicios-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .servicio-card {
+            background-color: var(--azul-medio);
+            padding: 40px 30px;
+            border-radius: 10px;
+            flex: 1;
+            max-width: 350px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .servicio-card:hover {
+            transform: translateY(-10px);
+            background-color: #1a427a;
+        }
+        .servicio-icono { font-size: 40px; margin-bottom: 20px; }
+        .servicio-card h3 { font-size: 22px; margin-top: 0; margin-bottom: 15px; }
+        .servicio-card p { font-size: 14px; line-height: 1.6; color: #ccc; }
+
+        /* --- SECCIÓN BASE DE DATOS (Tabla) --- */
+        .tecnologia {
+            padding: 80px 10%;
+            background-color: var(--gris-fondo);
+            text-align: center;
+        }
+        .tecnologia h2 { font-size: 36px; color: var(--azul-oscuro); margin-bottom: 10px;}
+        .tecnologia p { color: #666; margin-bottom: 40px; }
+
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+        th {
+            background-color: var(--azul-oscuro);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+        tr:hover { background-color: #f1f5f9; }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            background-color: #05101f;
+            color: #aaa;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+        footer strong { color: white; }
+    </style>
+</head>
+<body>
+
+<!-- MENÚ -->
+<div class="navbar">
+    <img src="/logo.jpeg" alt="Logo Transporte Flores">
+    <ul>
+        <li>Inicio</li>
+        <li>Nosotros</li>
+        <li>Servicios</li>
+        <li>Tecnología</li>
+        <li class="btn-nav"><a href="/contacto" style="color:white; text-decoration:none;">Contáctanos</a></li>
+    </ul>
+</div>
+
+<!-- PORTADA PRINCIPAL -->
+<div class="hero">
+    <div class="hero-content">
+        <h1>Más que logística, <br><span>tu socio estratégico</span></h1>
+        <p>Conectando personas, negocios y destinos en toda Nicaragua desde el año 2000.</p>
+        <a href="#tecnologia" class="btn-principal"></a>
+    </div>
+</div>
+
+<!-- ESTADÍSTICAS -->
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>+26</h3>
+        <p>Años de Experiencia</p>
+    </div>
+    <div class="stat-card">
+        <h3>+520 Km</h3>
+        <p>Ruta Managua - P. Cabezas</p>
+    </div>
+    <div class="stat-card">
+        <h3>Sábados</h3>
+        <p>Salidas Fijas</p>
+    </div>
+    <div class="stat-card">
+        <h3>-20°C</h3>
+        <p>Furgones Refrigerados</p>
+    </div>
+</div>
+
+<!-- SECCIÓN NOSOTROS (Basado en tu documento) -->
+<div class="nosotros">
+    <div class="nosotros-texto">
+        <h2>Nuestra <span>Historia</span></h2>
+        <p>La Agencia de Transporte Flores nació en el año 2000. Sus fundadores vieron que en la costa de Nicaragua las empresas locales tenían un problema: necesitaban llevar su carga de forma eficiente, pero las carreteras no estaban en buen estado y las opciones de transporte eran limitadas.</p>
+        <p>Con el paso del tiempo, la agencia se ganó la confianza de sus clientes y amplió sus servicios, volviéndose un pilar para los comerciantes que dependían de sus entregas semanales. Hoy, la compañía suma más de 26 años movilizando carga seca y refrigerada hacia Puerto Cabezas.</p>
+        <p>Actualmente, el proceso arranca cuando el cliente contacta al encargado. La carga se junta en nuestra bodega en Managua durante la semana y, los días sábados, se emprende el viaje hacia Puerto Cabezas para coordinar la entrega segura.</p>
+    </div>
+    <div class="nosotros-img">
+        <img src="/camiones.jpeg" alt="Camiones de Transporte Flores">
+    </div>
+</div>
+
+<!-- SECCIÓN SERVICIOS (Estilo Cargotrans) -->
+<div class="servicios">
+    <h2>Un servicio para cada necesidad</h2>
+    <div class="servicios-grid">
+        <div class="servicio-card">
+            <div class="servicio-icono">🚚</div>
+            <h3>Transporte de Mercancía</h3>
+            <p>Servicio de transporte especializado desde nuestra bodega en Managua hasta Puerto Cabezas, garantizando la seguridad de tu carga en todo el trayecto.</p>
+        </div>
+        <div class="servicio-card">
+            <div class="servicio-icono">❄️</div>
+            <h3>Carga Refrigerada</h3>
+            <p>Contamos con furgones refrigerados capaces de mantener temperaturas de hasta -20°C, ideales para productos que requieren cadena de frío estricta.</p>
+        </div>
+        <div class="servicio-card">
+            <div class="servicio-icono">📦</div>
+            <h3>Carga General y Pesada</h3>
+            <p>Movilizamos carga seca y materiales pesados con camiones de hasta 8 toneladas. También ofrecemos viajes completos a otros departamentos del país.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- PIE DE PÁGINA -->
+<footer>
+    <p><strong>CONTACTOS:</strong> 8844-8352 / 8856-7883</p>
+    <p>Leonardo Flores | Enrique Flores</p>
+    <p>Bodega en Managua: De la entrada del nuevo CARNIC, 300vrs al lago.</p>
+    <p style="margin-top: 20px;">&copy; 2026 Transporte Flores. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
